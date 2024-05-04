@@ -36,7 +36,7 @@ public class Lexer{
         }
     }
     private Token NextIdentifier(){
-        Token token = new Token();
+        Token token = new();
         token.SetTokenType(TokenType.IDENTIFIER);
         String value = "";
         while(char.IsLetterOrDigit(p_c) || p_c == '_'){
@@ -47,7 +47,7 @@ public class Lexer{
         return token;
     } 
     private Token NextString(){
-        Token token = new Token();
+        Token token = new();
         token.SetTokenType(TokenType.STRING);
         Advance();
         String value = "";
@@ -64,7 +64,7 @@ public class Lexer{
         return token;
     }
     private Token NextNumber(){
-        Token token = new Token();
+        Token token = new();
         token.SetTokenType(TokenType.NUMBER);
         String value = "";
         while(Char.IsDigit(p_c)){
@@ -152,5 +152,17 @@ public class Lexer{
         }
         return token;
     }
+    public Token[] AllTokens(){
+        List<Token> tokensList = new List<Token>();
+        Token token = NextToken();
+        while(token.GetTokenType() != TokenType.EOF){
+            tokensList.Add(new Token(token));
+            token = NextToken();
+        }
+        return tokensList.ToArray();
     }
+    public bool GetErrorStatus(){
+        return p_errored;
+    }
+}
 }

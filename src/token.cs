@@ -56,12 +56,16 @@ public enum TokenType{
     };
 public class Token{
     private static TokenType p_tt;
-    private static String p_value;
-    static Token(){
+    private static String? p_value;
+    public Token(){
         p_tt = TokenType.INVALID;
         p_value = "Invalid";
     }
-    public String GetValue(){
+    public Token(Token tok){
+        p_tt = tok.GetTokenType();
+        p_value = tok.GetValue();
+    }
+    public String? GetValue(){
         return p_value;
     }
     public TokenType GetTokenType(){
@@ -72,6 +76,9 @@ public class Token{
     }
     public void SetTokenType(TokenType type){
         p_tt = type;
+    }
+    public void Print(){
+        Console.WriteLine($"Value = {p_value}");
     }
 }
 }

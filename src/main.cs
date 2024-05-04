@@ -14,17 +14,36 @@ using zephyr;
 
 namespace zephyr{
 class Zephyr{
+    public static void Usage(){
+        Console.WriteLine("Usage: zephyr [options] <path>");
+        Console.WriteLine("Options:");
+        Console.WriteLine("-h, --help");
+    }
     public static void Main(String[] argv){
         if(argv.Length < 1){
-            Console.WriteLine("Usage: zephyr <path>");
+            Usage();
             return;
         }
-        String path = argv[0];
-        Lexer lexer = new Lexer(Util.ReadFile(path));
-        Token token = lexer.NextToken();
-        while(token.GetTokenType() != TokenType.EOF){
-            Console.WriteLine($"Token value = {token.GetValue()}");
-            token = lexer.NextToken();
+        String path = "None";
+        foreach(string arg in argv){
+            if(arg.Equals("-h") || arg.Equals("--help")){
+                Usage();
+                return;
+            } else{
+                if(path != "None"){
+                    Console.WriteLine("ERROR: Multiple input paths provided!\n");
+                    return;
+                }
+                path = arg;
+            }
+        }
+        Lexer lexer = new(Util.ReadFile(path));
+        Token[] tokens = lexer.AllTokens();
+        if(lexer.GetErrorStatus()){
+            return;
+        }
+        foreach(Token token in tokens){
+            token.Print();
         }
     }
 }
