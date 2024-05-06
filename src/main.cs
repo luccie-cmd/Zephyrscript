@@ -37,14 +37,8 @@ class Zephyr{
                 path = arg;
             }
         }
-        Lexer lexer = new(Util.ReadFile(path));
-        Token[] tokens = lexer.AllTokens();
-        if(lexer.GetErrorStatus()){
-            return;
-        }
-        foreach(Token token in tokens){
-            token.Print();
-        }
+        Console.WriteLine($"{path}");
+        return;
     }
 }
 }
